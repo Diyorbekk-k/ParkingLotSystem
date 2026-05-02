@@ -94,7 +94,6 @@ public class ExitScreen {
             );
             ticketInfoBox.setVisible(true);
 
-            // Payment form
             paymentBox.getChildren().clear();
             ToggleGroup payGroup = new ToggleGroup();
             RadioButton cashRb = new RadioButton("Cash");
