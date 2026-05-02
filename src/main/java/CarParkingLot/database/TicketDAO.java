@@ -15,16 +15,16 @@ public class TicketDAO {
             conn = DatabaseConnection.getConnection();
             conn.setAutoCommit(false);
 
-            // Insert or get vehicle
+
             int vehicleId = getOrCreateVehicle(conn, licenseNumber, vehicleType);
 
-            // Mark spot as occupied
+ 
             String updateSpot = "UPDATE parking_spots SET is_free = FALSE WHERE id = ?";
             PreparedStatement ps2 = conn.prepareStatement(updateSpot);
             ps2.setInt(1, spotId);
             ps2.executeUpdate();
 
-            // Create ticket
+
             String ticketNum = "TKT-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
             String insertTicket = "INSERT INTO parking_tickets (ticket_number, issued_at, status, vehicle_id, spot_id) VALUES (?,?,?,?,?)";
             PreparedStatement ps3 = conn.prepareStatement(insertTicket, Statement.RETURN_GENERATED_KEYS);
@@ -118,7 +118,7 @@ public class TicketDAO {
             conn = DatabaseConnection.getConnection();
             conn.setAutoCommit(false);
 
-            // Get spot id from ticket
+
             String getSpot = "SELECT spot_id FROM parking_tickets WHERE id = ?";
             PreparedStatement ps1 = conn.prepareStatement(getSpot);
             ps1.setInt(1, ticketId);
@@ -126,7 +126,7 @@ public class TicketDAO {
             int spotId = 0;
             if (rs.next()) spotId = rs.getInt("spot_id");
 
-            // Update ticket
+
             String updateTicket = "UPDATE parking_tickets SET status='PAID', paid_at=?, paid_amount=? WHERE id=?";
             PreparedStatement ps2 = conn.prepareStatement(updateTicket);
             ps2.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
@@ -134,7 +134,7 @@ public class TicketDAO {
             ps2.setInt(3, ticketId);
             ps2.executeUpdate();
 
-            // Free the spot
+
             if (spotId > 0) {
                 String freeSpot = "UPDATE parking_spots SET is_free = TRUE WHERE id = ?";
                 PreparedStatement ps3 = conn.prepareStatement(freeSpot);
@@ -142,7 +142,7 @@ public class TicketDAO {
                 ps3.executeUpdate();
             }
 
-            // Insert payment record
+
             String insertPayment = "INSERT INTO payments (ticket_id, amount, payment_type, created_at, name_on_card, cash_tendered) VALUES (?,?,?,?,?,?)";
             PreparedStatement ps4 = conn.prepareStatement(insertPayment);
             ps4.setInt(1, ticketId);
@@ -176,7 +176,6 @@ public class TicketDAO {
         t.setVehicleId(rs.getInt("vehicle_id"));
         t.setSpotId(rs.getInt("spot_id"));
 
-        // Load vehicle
         String vSql = "SELECT * FROM vehicles WHERE id = ?";
         PreparedStatement vPs = conn.prepareStatement(vSql);
         vPs.setInt(1, t.getVehicleId());
@@ -189,7 +188,7 @@ public class TicketDAO {
             t.setVehicle(v);
         }
 
-        // Load spot
+  
         String sSql = "SELECT ps.*, pf.name as floor_name FROM parking_spots ps JOIN parking_floors pf ON ps.floor_id = pf.id WHERE ps.id = ?";
         PreparedStatement sPs = conn.prepareStatement(sSql);
         sPs.setInt(1, t.getSpotId());
