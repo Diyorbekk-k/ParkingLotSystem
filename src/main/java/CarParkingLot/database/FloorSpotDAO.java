@@ -9,8 +9,6 @@ import java.util.List;
 
 public class FloorSpotDAO {
 
-    // ─── FLOORS ───────────────────────────────────────────────
-
     public List<ParkingFloor> getAllFloors() {
         List<ParkingFloor> list = new ArrayList<>();
         String sql = "SELECT * FROM parking_floors";
@@ -45,7 +43,7 @@ public class FloorSpotDAO {
         } catch (SQLException e) { e.printStackTrace(); return false; }
     }
 
-    // ─── SPOTS ────────────────────────────────────────────────
+
 
     public List<ParkingSpot> getSpotsByFloor(int floorId) {
         List<ParkingSpot> list = new ArrayList<>();
