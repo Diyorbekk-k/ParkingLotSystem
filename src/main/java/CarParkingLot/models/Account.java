@@ -4,7 +4,7 @@ public class Account {
     private int id;
     private String username;
     private String password;
-    private String role; // ADMIN or ATTENDANT
+    private String role; 
     private String name;
     private String email;
     private String phone;
