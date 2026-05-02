@@ -47,7 +47,6 @@ public class EntranceScreen {
             return;
         }
 
-        // Form
         TextField licenseField = UIHelper.styledField("License Plate Number (e.g. ABC-1234)");
         licenseField.setMaxWidth(360);
 
@@ -74,7 +73,6 @@ public class EntranceScreen {
         issueBtn.setMinWidth(360);
         issueBtn.setMinHeight(40);
 
-        // Ticket receipt area
         VBox receiptBox = new VBox(8);
         receiptBox.setVisible(false);
 
@@ -117,7 +115,6 @@ public class EntranceScreen {
             receiptBox.setVisible(true);
 
             licenseField.clear();
-            // Refresh spots
             List<ParkingSpot> updated = fsDao.getFreeSpots();
             spotBox.getItems().setAll(updated);
             if (!updated.isEmpty()) spotBox.setValue(updated.get(0));
