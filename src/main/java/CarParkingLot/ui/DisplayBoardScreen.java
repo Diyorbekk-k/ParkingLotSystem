@@ -58,7 +58,6 @@ public class DisplayBoardScreen {
             content.getChildren().add(full);
         }
 
-        // Per floor breakdown
         Map<Integer, List<ParkingSpot>> byFloor = allSpots.stream()
                 .collect(Collectors.groupingBy(ParkingSpot::getFloorId));
 
@@ -78,7 +77,6 @@ public class DisplayBoardScreen {
             spotGrid.setHgap(10);
             spotGrid.setVgap(6);
 
-            // Group by type
             Map<ParkingSpotType, Long> freeByType = floorSpots.stream()
                     .filter(ParkingSpot::isFree)
                     .collect(Collectors.groupingBy(ParkingSpot::getSpotType, Collectors.counting()));
